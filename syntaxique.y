@@ -61,6 +61,7 @@ liste_instructions : inst
 inst : inst_affectation
      | inst_boucle
      | inst_condition
+     | inst_affectation_sanspvr
 ;
 
 inst_affectation : key_idf key_affectation expression_arith key_point_virgule

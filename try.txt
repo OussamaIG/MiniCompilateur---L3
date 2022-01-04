@@ -5,9 +5,9 @@ r | v : Pint;
 @define Pfloat y <-- 4;
 PINST 
 Begin
-DO x<--2;
-x<--2;
-x<--2;
-FOR x<--2 WHILE 5 DO x<--2; ENDFOR
+DO x<--2
+x<--2
+x<--2
+FOR x<--2 WHILE 5 DO x<--2 ENDFOR
 IF : (x > 3 & x > 5 & x > 3 | x > 5) ENDIF
 End
