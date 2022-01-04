@@ -36,10 +36,10 @@ Entete : key_Program key_idf  key_Dec liste_declaration key_Inst
 
 liste_declaration : listevar key_deux_points type key_point_virgule liste_declaration 
                   | listevar key_deux_points type key_point_virgule  
-                  | key_define pint key_idf key_affectation constante key_point_virgule liste_declaration
-                  | key_define pfloat key_idf key_affectation constante key_point_virgule liste_declaration 
-                  | key_define pint key_idf key_affectation constante key_point_virgule
-                  | key_define pfloat key_idf key_affectation constante key_point_virgule
+                  | key_define key_pint key_idf key_affectation constante key_point_virgule liste_declaration
+                  | key_define key_pfloat key_idf key_affectation constante key_point_virgule liste_declaration 
+                  | key_define key_pint key_idf key_affectation constante key_point_virgule
+                  | key_define key_pfloat key_idf key_affectation constante key_point_virgule
 ;
 
 type : key_pint
@@ -66,6 +66,9 @@ inst : inst_affectation
 inst_affectation : key_idf key_affectation expression_arith key_point_virgule
 ;
 
+inst_affectation_sanspvr : key_idf key_affectation expression_arith
+;
+
 expression_arith : expression_arith key_plus expression_arith
            | expression_arith key_soustraction expression_arith
            | expression_arith key_multiplication expression_arith
@@ -75,7 +78,7 @@ expression_arith : expression_arith key_plus expression_arith
            | key_parenthese expression_arith key_parenthese_end
 ;
 
-inst_boucle : key_For inst_affectation key_While pint key_Do liste_instructions key_Endfor
+inst_boucle : key_For inst_affectation_sanspvr key_While pint key_Do liste_instructions key_Endfor
 ;
 
 inst_condition : key_Do liste_instructions key_If key_deux_points key_parenthese condition_complex key_parenthese_end key_EndIf
@@ -85,10 +88,6 @@ inst_condition : key_Do liste_instructions key_If key_deux_points key_parenthese
 condition_complex :   condition_complex key_and condition_simple 
                     | condition_simple
                     | condition_complex key_or condition_simple
-                    | key_parenthese condition_complex key_and condition_simple key_parenthese_end
-                    | key_parenthese condition_complex key_or condition_simple key_parenthese_end
-                    | '(' condition_complex ')' '&' '(' condition_complex ')'
-                    | '(' condition_complex ')' '|' '(' condition_complex ')'
 ;
 
 condition_simple :  expression_arith operation_cmp expression_arith
