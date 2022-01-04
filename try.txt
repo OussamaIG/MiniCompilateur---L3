@@ -1,0 +1,8 @@
+Program p1
+PDEC
+m : Pfloat;
+r | v : Pint;
+PINST 
+Begin
+DO x<--2; IF : ((x > 3 & y > 4) & (p > 3 & x < 2)) ENDIF
+End
