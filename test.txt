@@ -1,0 +1,14 @@
+Program p1
+PDEC
+x : Pint;
+z : Pfloat;
+@define Pint y <-- 3;
+e : Pint;
+PINST 
+Begin
+DO
+x <-- z;
+IF :( x <= 3 | z >= 2 )ENDIF
+End
+
+

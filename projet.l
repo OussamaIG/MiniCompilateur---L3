@@ -1,16 +1,15 @@
 %{
 #include <stdio.h>
 #include<string.h>
-#include "syntaxique.tab.h" 
+#include "projet.tab.h" 
 int ligne=1;
 int col=0;
 extern YYSTYPE yylval;
 %}
 chiffre [0-9]
 lettre [a-z]
-pint {chiffre}{chiffre}*
+pint [1-9]{chiffre}*
 pfloat [1-9]{chiffre}*[.]{chiffre}{chiffre}*
-CONST {pfloat}|{pint}
 idf {lettre}({lettre}|{chiffre}|_)*(({lettre}|{chiffre}))*
 %%
 Program {return key_Program;col=col+yyleng;}
@@ -33,7 +32,13 @@ ENDIF {return key_EndIf;col=col+yyleng;}
 
 {idf} {if(yyleng <= 12){yylval.str=strdup(yytext);return key_idf;}col=col+yyleng;}
 {pfloat}     {yylval.pfloat=atof(yytext);return pfloat;col=col+yyleng;}
-{pint}       {yylval.entier=atoi(yytext);return pint ; col=col+yyleng;}
+{pint}       {
+              yylval.entier=atoi(yytext);
+              if(yylval.entier < 32768 && yylval.entier > -32769){
+               return pint ; col=col+yyleng;
+              }
+              else printf("ligne %d , colonne %d : erreur lexical\n",ligne,col);
+            }
 
 "+"     {return key_plus;col=col+yyleng;}
 "-"     {return key_soustraction;col=col+yyleng;}
@@ -56,6 +61,9 @@ ENDIF {return key_EndIf;col=col+yyleng;}
 
 "!"     {return key_diffrent;col=col+yyleng;}
 "&"     {return key_and;col=col+yyleng;}
+
+"//".*
+"/*"(.*\n*)*"*/"
 
 [ \t]   col++;
 \n      {ligne++;col=0;}
